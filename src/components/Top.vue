@@ -2,7 +2,7 @@
   <div class="top">
       <div>PP音乐<small>  懂你的PP</small></div>
       <div class="search" v-show="flag">
-        <input type="text" name="search" v-model="val" placeholder="请输入你想要的音乐">
+        <input type="text" name="search" v-model="val" placeholder="请输入你想要的音乐" @keyup.enter='search'>
           <button @click="search">搜索</button>
       </div>
       <div class="">
