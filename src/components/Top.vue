@@ -1,13 +1,13 @@
 <template>
   <div class="top">
-      <div>PP音乐<small>  懂你的PP</small></div>
+      <div>PP音乐</div>
       <div class="search" v-show="flag">
         <input type="text" name="search" v-model="val" placeholder="请输入你想要的音乐" @keyup.enter='search'>
           <button @click="search">搜索</button>
       </div>
       <div class="">
-          <span @click='errorTips'>注册</span>
-          <span @click='errorTips'>登录</span>
+          <!-- <span @click='errorTips'>注册</span>
+          <span @click='errorTips'>登录</span> -->
       </div>
       <Contai :songs='song'></Contai>
   </div>
@@ -50,6 +50,7 @@ export default {
           }).catch(function (error) {
               window.console.log(error);
           });
+          this.$store.commit('clickList',-1);
       },
       //错误提示
       errorTips(){
@@ -78,6 +79,8 @@ export default {
     text-align: left;
     padding-left: 20px;
     box-sizing: border-box;
+    color:rgba(51,166,184,1);
+    font-weight:500;
 }
 .top>div:nth-child(2){
   width:60%;

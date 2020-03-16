@@ -76,7 +76,6 @@ export default {
         lastLine: ''
       },
       changeTime: false
-
     }
   },
   methods: {
@@ -123,12 +122,14 @@ export default {
     },
     //暂停播放控制
     PlayAndPause() {
-      if (this.play) {
+      if (this.play && this.$store.state.islist) {
         this.$refs.audio.pause();
         this.play = false;
-      } else {
+      } else if(!this.play && this.$store.state.islist) {
         this.$refs.audio.play();
         this.play = true;
+      }else if(!this.play && !this.$store.state.islist){
+        this.$emit('noListPlay')
       }
     },
 

@@ -10,7 +10,7 @@
     </div>
     <div class="songlist">
       <ul>
-        <li v-for='(val,key) in song_list' :key='key' @dblclick="chose(key)">
+        <li v-for='(val,key) in song_list' :key='key' @dblclick="chose(key)" :class="{'active':getInd==key}">
           <div class="songlist_container">
             <div>{{key+1}}</div>
             <div>{{val.title}}</div>
@@ -42,7 +42,7 @@
     </div>
   </div>
   <!-- v-on:changeLyric='changeLyric' -->
-  <audioPlay :url="url" :lrc="lrc" ref='audioPlay' v-on:changeLyric='changeLyric' v-on:preSong='preSong'></audioPlay>
+  <audioPlay :url="url" :lrc="lrc" ref='audioPlay' v-on:changeLyric='changeLyric' v-on:preSong='preSong' v-on:noListPlay="chose(0)"></audioPlay>
 </div>
 </template>
 
@@ -68,19 +68,26 @@ export default {
       file: '',
       url: '',
       palysong: {},
-      img: require('../assets/songimg.png'),
+      img: require('../assets/music.png'),
       lrc: [],
       lyric: {
         firstLine: '',
         secondLine: '',
         lastLine: ''
       },
-      listIndex: 0
+      listIndex: 0,
+      ind:-1
+    }
+  },
+  computed:{
+    getInd(){
+      return this.$store.state.ind;
     }
   },
   methods: {
     chose(index) {
       this.listIndex = index;
+      this.$store.commit('clickList',index);
       // this.url='api/v1/restserver/ting?method=baidu.ting.song.play&songid='+this.song_list[index].song_id;
       this.url = this.song_list[index].song_id;
       this.palysong = this.song_list[index];
@@ -114,6 +121,7 @@ export default {
         window.console.log(error);
       });
       this.$refs.audioPlay.line = 0;
+      this.$store.commit('playList');
     },
     //更新歌单
     UpdateSong(song) {
@@ -468,5 +476,8 @@ a {
 .fa-download {
   color: #fff;
   cursor: pointer;
+}
+.active>div>div{
+  color:rgba(51, 166, 184, 1);
 }
 </style>
